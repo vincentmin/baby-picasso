@@ -63,7 +63,7 @@ class DrawingPainter extends CustomPainter {
 
     for (var path in paths) {
       Paint paint = Paint()
-        ..color = path.color
+        ..color = path.color.withOpacity(0.5)
         ..strokeWidth = 25.0
         ..style = PaintingStyle.stroke
         ..strokeCap = StrokeCap.round;
