@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-// import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'dart:math' as math;
 
 void main() {
   runApp(const MyApp());
@@ -12,8 +12,12 @@ class MyApp extends StatefulWidget {
   _MyAppState createState() => _MyAppState();
 }
 
+Color getRandomColor() {
+  return Color((math.Random().nextDouble() * 0xFFFFFF).toInt() << 0).withOpacity(1.0);
+}
+
 class _MyAppState extends State<MyApp> {
-  Color selectedColor = Colors.black;
+  Color color = Colors.black;
   List<List<Offset>> paths = [];
 
   @override
@@ -24,16 +28,14 @@ class _MyAppState extends State<MyApp> {
         child: Scaffold(
           body: GestureDetector(
             onPanStart: (details) => setState(() {
+              color = getRandomColor();
               paths.add(<Offset>[details.localPosition]);
             }),
             onPanUpdate: (details) => setState(() {
               paths.last.add(details.localPosition);
             }),
-            // onPanEnd: (details) => setState(() {
-            //   paths.add(<Offset>[]);
-            // }),
             child: CustomPaint(
-              painter: DrawingPainter(paths, selectedColor),
+              painter: DrawingPainter(paths, color),
               child: Container(),
             ),
           ),
