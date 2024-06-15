@@ -13,7 +13,7 @@ class MyApp extends StatefulWidget {
 }
 
 class PathColorPair {
-  Offset path;
+  List<Offset> path;
   Color color;
 
   PathColorPair(this.path, this.color);
@@ -25,7 +25,7 @@ Color getRandomColor() {
 
 class _MyAppState extends State<MyApp> {
   Color color = Colors.black;
-  List<List<PathColorPair>> paths = [];
+  List<PathColorPair> paths = [];
 
   @override
   Widget build(BuildContext context) {
@@ -36,10 +36,10 @@ class _MyAppState extends State<MyApp> {
           body: GestureDetector(
             onPanStart: (details) => setState(() {
               color = getRandomColor();
-              paths.add([PathColorPair(details.localPosition, color)]);
+              paths.add(PathColorPair([details.localPosition], color));
             }),
             onPanUpdate: (details) => setState(() {
-              paths.last.add(PathColorPair(details.localPosition, color));
+              paths.last.path.add(details.localPosition);
             }),
             child: CustomPaint(
               painter: DrawingPainter(paths),
@@ -54,7 +54,7 @@ class _MyAppState extends State<MyApp> {
 }
 
 class DrawingPainter extends CustomPainter {
-  final List<List<PathColorPair>> paths;
+  final List<PathColorPair> paths;
 
   DrawingPainter(this.paths);
 
@@ -63,14 +63,14 @@ class DrawingPainter extends CustomPainter {
 
     for (var path in paths) {
       Paint paint = Paint()
-        ..color = path.first.color
+        ..color = path.color
         ..strokeWidth = 25.0
         ..style = PaintingStyle.stroke; // Use stroke style for drawing lines
       Path drawingPath = Path();
-      if (path.isNotEmpty) {
-        drawingPath.moveTo(path.first.path.dx, path.first.path.dy);
-        for (var point in path.skip(1)) {
-          drawingPath.lineTo(point.path.dx, point.path.dy);
+      if (path.path.isNotEmpty) {
+        drawingPath.moveTo(path.path.first.dx, path.path.first.dy);
+        for (var point in path.path.skip(1)) {
+          drawingPath.lineTo(point.dx, point.dy);
         }
       }
       canvas.drawPath(drawingPath, paint);
