@@ -65,7 +65,8 @@ class DrawingPainter extends CustomPainter {
       Paint paint = Paint()
         ..color = path.color
         ..strokeWidth = 25.0
-        ..style = PaintingStyle.stroke; // Use stroke style for drawing lines
+        ..style = PaintingStyle.stroke
+        ..strokeCap = StrokeCap.round;
       Path drawingPath = Path();
       if (path.path.isNotEmpty) {
         drawingPath.moveTo(path.path.first.dx, path.path.first.dy);
