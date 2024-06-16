@@ -19,21 +19,20 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        home: Directionality(
-            textDirection: TextDirection.ltr,
-            child: Scaffold(
-              body: GestureDetector(
-                onPanStart: (details) => setState(() {
-                  paths.add(PathColorPair([details.localPosition]));
-                }),
-                onPanUpdate: (details) => setState(() {
-                  paths.last.points.add(details.localPosition);
-                }),
-                child: CustomPaint(
-                  painter: DrawingPainter(paths),
-                  child: Container(),
-                ),
-              ),
-            )));
+      home: Scaffold(
+        body: GestureDetector(
+          onPanStart: (details) => setState(() {
+            paths.add(PathColorPair([details.localPosition]));
+          }),
+          onPanUpdate: (details) => setState(() {
+            paths.last.points.add(details.localPosition);
+          }),
+          child: CustomPaint(
+            painter: DrawingPainter(paths),
+            child: Container(),
+          ),
+        ),
+      ),
+    );
   }
 }
