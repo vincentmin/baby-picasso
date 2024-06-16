@@ -8,10 +8,9 @@ class DrawingPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-
     for (var path in paths) {
       Paint paint = Paint()
-        ..color = path.color.withOpacity(0.5)
+        ..color = path.color
         ..strokeWidth = 25.0
         ..style = PaintingStyle.stroke
         ..strokeCap = StrokeCap.round;
