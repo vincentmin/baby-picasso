@@ -34,6 +34,12 @@ class _MyAppState extends State<MyApp> {
             child: Container(),
           ),
         ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () => setState(() {
+            paths.clear();
+          }),
+          child: const Icon(Icons.refresh),
+        ),
       ),
     );
   }
