@@ -99,8 +99,7 @@ class CircleRevealClipper extends CustomClipper<Path> {
 
   @override
   Path getClip(Size size) {
-    Path outerPath = Path()
-      ..addOval(Rect.fromLTWH(0, 0, size.width / 2, size.height / 2));
+    Path outerPath = Path()..addOval(Rect.largest);
 
     Path innerPath = Path()
       ..addOval(Rect.fromCircle(
@@ -108,7 +107,8 @@ class CircleRevealClipper extends CustomClipper<Path> {
         radius: radius,
       ));
 
-    return Path.combine(PathOperation.xor, outerPath, innerPath);
+    var dummyPath = Path.combine(PathOperation.intersect, outerPath, innerPath);
+    return Path.combine(PathOperation.difference, outerPath, dummyPath);
   }
 
   @override
