@@ -31,11 +31,7 @@ class PathColorPair {
       );
 
       path.quadraticBezierTo(
-        currentPoint.dx,
-        currentPoint.dy,
-        midpoint.dx,
-        midpoint.dy,
-      );
+          currentPoint.dx, currentPoint.dy, midpoint.dx, midpoint.dy);
     }
 
     // Draw a line to the last point

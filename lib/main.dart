@@ -39,7 +39,7 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
         if (status == AnimationStatus.completed) {
           setState(() {
             _isAnimating = false;
-            paths.clear(); // Clear paths when animation completes
+            paths.clear();
           });
         }
       });
@@ -86,15 +86,12 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
                   ? CircleRevealClipper(_radius, fabPosition)
                   : null,
               child: CustomPaint(
-                painter: DrawingPainter(paths),
-                child: Container(),
-              ),
+                  painter: DrawingPainter(paths), child: Container()),
             )),
         floatingActionButton: FloatingActionButton(
-          key: _fabKey,
-          onPressed: _startAnimation,
-          child: const Icon(Icons.refresh),
-        ),
+            key: _fabKey,
+            onPressed: _startAnimation,
+            child: const Icon(Icons.refresh)),
       ),
     );
   }
