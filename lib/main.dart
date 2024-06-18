@@ -21,13 +21,15 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
   late Animation<double> _animation;
   bool _isAnimating = false;
   double _radius = 0.0;
+  Offset fabPosition = Offset.zero;
+  final GlobalKey _fabKey = GlobalKey();
 
   @override
   void initState() {
     super.initState();
     _controller =
         AnimationController(duration: const Duration(seconds: 2), vsync: this);
-    _animation = Tween<double>(begin: 0.0, end: 1000.0).animate(_controller)
+    _animation = Tween<double>(begin: 0.0, end: 2000.0).animate(_controller)
       ..addListener(() {
         setState(() {
           _radius = _animation.value;
@@ -52,6 +54,9 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
   void _startAnimation() {
     setState(() {
       _isAnimating = true;
+      final RenderBox fabRenderBox =
+          _fabKey.currentContext!.findRenderObject() as RenderBox;
+      fabPosition = fabRenderBox.localToGlobal(Offset.zero);
     });
     _controller.forward(from: 0.0);
   }
@@ -77,13 +82,16 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
               }
             },
             child: ClipPath(
-              clipper: _isAnimating ? CircleRevealClipper(_radius) : null,
+              clipper: _isAnimating
+                  ? CircleRevealClipper(_radius, fabPosition)
+                  : null,
               child: CustomPaint(
                 painter: DrawingPainter(paths),
                 child: Container(),
               ),
             )),
         floatingActionButton: FloatingActionButton(
+          key: _fabKey,
           onPressed: _startAnimation,
           child: const Icon(Icons.refresh),
         ),
