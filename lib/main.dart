@@ -107,8 +107,9 @@ class CircleRevealClipper extends CustomClipper<Path> {
         radius: radius,
       ));
 
-    var dummyPath = Path.combine(PathOperation.intersect, outerPath, innerPath);
-    return Path.combine(PathOperation.difference, outerPath, dummyPath);
+    var invertedPath =
+        Path.combine(PathOperation.intersect, outerPath, innerPath);
+    return Path.combine(PathOperation.difference, outerPath, invertedPath);
   }
 
   @override
