@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:myapp/painter.dart';
 import 'package:myapp/path_color_pair.dart';
+import 'package:myapp/clipper.dart';
 
 void main() {
   runApp(const MyApp());
@@ -24,10 +25,8 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-      duration: const Duration(seconds: 5),
-      vsync: this,
-    );
+    _controller =
+        AnimationController(duration: const Duration(seconds: 2), vsync: this);
     _animation = Tween<double>(begin: 0.0, end: 1000.0).animate(_controller)
       ..addListener(() {
         setState(() {
@@ -90,30 +89,5 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
         ),
       ),
     );
-  }
-}
-
-class CircleRevealClipper extends CustomClipper<Path> {
-  final double radius;
-  CircleRevealClipper(this.radius);
-
-  @override
-  Path getClip(Size size) {
-    Path outerPath = Path()..addOval(Rect.largest);
-
-    Path innerPath = Path()
-      ..addOval(Rect.fromCircle(
-        center: Offset(size.width / 2, size.height / 2),
-        radius: radius,
-      ));
-
-    var invertedPath =
-        Path.combine(PathOperation.intersect, outerPath, innerPath);
-    return Path.combine(PathOperation.difference, outerPath, invertedPath);
-  }
-
-  @override
-  bool shouldReclip(covariant CustomClipper<Path> oldClipper) {
-    return true;
   }
 }
